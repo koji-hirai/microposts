@@ -46,4 +46,8 @@ class UsersController < ApplicationController
   def correct_user
     redirect_to root_path if @user != current_user
   end
+  
+  def loged_in_user
+    render 'show'
+  end
 end
