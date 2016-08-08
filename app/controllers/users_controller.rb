@@ -1,10 +1,9 @@
 class UsersController < ApplicationController
-  before_action :set_params, only: [:show, :edit, :update]
+  before_action :set_params, only: [:show, :edit, :update, :followings, :followers]
   before_action :correct_user, only: [:edit, :update]
-  before_action :loged_in_user, only: [:show]
+  before_action :logged_in_user, only: [:show]
 
   def show
-    @user = User.find(params[:id])
     @microposts = @user.microposts.order(created_at: :desc)
   end
 
@@ -15,8 +14,8 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      flash[:success] = "Welcome to the Sample App!"
-      redirect_to @user
+      flash[:success] = "Welcome to the Sample App! Please login!"
+      redirect_to login_path
     else
       render 'new'
     end
@@ -33,6 +32,18 @@ class UsersController < ApplicationController
       render 'edit'
     end
   end
+  
+  def followings
+    @title = 'Followings'
+    @users = @user.following_users
+    render 'show_follow'
+  end
+
+  def followers
+    @title = 'Followers'
+    @users = @user.follower_users
+    render 'show_follow'
+  end
 
   private
 
@@ -47,9 +58,5 @@ class UsersController < ApplicationController
   
   def correct_user
     redirect_to root_path if @user != current_user
-  end
-  
-  def loged_in_user
-    render 'show'
   end
 end
