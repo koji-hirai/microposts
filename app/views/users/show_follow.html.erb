@@ -3,7 +3,8 @@
     <%= render 'user_info' %>
   </aside>
   <div class="col-md-8">
-    <h3><%= @title %> (<%= @users.count %>)</h3>
+    <h3><%= @title %>(<%= @count %>)</h3>
+    <%= paginate @users %>
     <ol class="show_follow">
       <%= render @users %>
     </ol>
